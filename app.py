@@ -6,10 +6,18 @@ import unicodedata
 
 # Read in data from the Google Sheet.
 # Uses st.cache_data to only rerun when the query changes or after 10 min.
-
+st.set_page_config(
+    page_title="誰が本を読んだのか？",
+    page_icon="Assets/icon.png",
+    layout="centered",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'Get help': 'https://yomo-issyo.com',
+        'Report a bug': "https://yomo-issyo.com",
+        'About': "#This is trial comment sheet for YOMY!. This is an *super* cool app!"
+    }
+)
 @st.cache_data(ttl=600)
-
-
 
 def load_data(sheets_url):
     csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
@@ -25,17 +33,6 @@ st.title('一体誰が本を読んだのか？')
 # st.table(hisotry)
 # st.table(bookdata)
 
-st.set_page_config(
-    page_title="誰が本を読んだのか？",
-    page_icon="Assets/icon.png",
-    layout="centered",
-    initial_sidebar_state="expanded",
-    menu_items={
-        'Get help': 'https://yomo-issyo.com',
-        'Report a bug': "https://yomo-issyo.com",
-        'About': "#This is trial comment sheet for YOMY!. This is an *super* cool app!"
-    }
-)
 
 def normalize_unicode(text):
     return unicodedata.normalize("NFC", text)
@@ -68,9 +65,9 @@ unique_names = get_unique_names(hisotry)
 selected_names = st.multiselect('名前を選択してください:', unique_names)
 
 # Create a button for users to click and display the unread books
-if st.button('未読の本を表示'):
+if st.button('まだ誰も読んでいない本を表示'):
     st.balloons()
     unread_books = get_unread_books(selected_names, hisotry, bookdata)
-    st.write('未読の本:')
+    st.write('未読の本(体験会を除く):')
     for index, row in unread_books.iterrows():
         st.write(f"{row['Title']} - {row['author']}")

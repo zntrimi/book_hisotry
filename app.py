@@ -67,6 +67,7 @@ selected_names = st.multiselect('名前を選択してください:', unique_nam
 
 # Create a button for users to click and display the unread books
 if st.button('未読の本を表示'):
+    st.balloons()
     unread_books = get_unread_books(selected_names, hisotry, bookdata)
     st.write('未読の本:')
     for index, row in unread_books.iterrows():

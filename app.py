@@ -9,17 +9,7 @@ import unicodedata
 
 @st.cache_data(ttl=600)
 
-st.set_page_config(
-    page_title="誰が本を読んだのか？",
-    page_icon="Assets/icon.png",
-    layout="centered",
-    initial_sidebar_state="expanded",
-    menu_items={
-        'Get help': 'https://yomo-issyo.com',
-        'Report a bug': "https://yomo-issyo.com",
-        'About': "#This is trial comment sheet for YOMY!. This is an *super* cool app!"
-    }
-)
+
 
 def load_data(sheets_url):
     csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
@@ -34,6 +24,18 @@ st.title('一体誰が本を読んだのか？')
 # show the csv as table
 # st.table(hisotry)
 # st.table(bookdata)
+
+st.set_page_config(
+    page_title="誰が本を読んだのか？",
+    page_icon="Assets/icon.png",
+    layout="centered",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'Get help': 'https://yomo-issyo.com',
+        'Report a bug': "https://yomo-issyo.com",
+        'About': "#This is trial comment sheet for YOMY!. This is an *super* cool app!"
+    }
+)
 
 def normalize_unicode(text):
     return unicodedata.normalize("NFC", text)

@@ -68,6 +68,6 @@ selected_names = st.multiselect('名前を選択してください:', unique_nam
 if st.button('まだ誰も読んでいない本を表示'):
     st.balloons()
     unread_books = get_unread_books(selected_names, hisotry, bookdata)
-    st.write('未読の本(体験会を除く):')
+    st.header('未読の本(体験会を除く):')
     for index, row in unread_books.iterrows():
         st.write(f"{row['Title']} - {row['author']}")

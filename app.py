@@ -29,13 +29,16 @@ bookdata = load_data(st.secrets["book_data"])
 
 st.title('一体誰が本を読んだのか？')
 
-# show the csv as table
-# st.table(hisotry)
-# st.table(bookdata)
 
 
 def normalize_unicode(text):
-    return unicodedata.normalize("NFC", text)
+    # Ensure that the text is a string before normalizing
+    if isinstance(text, str):
+        return unicodedata.normalize("NFC", text)
+    else:
+        # Handle the case where text is not a string (e.g., None or float)
+        return unicodedata.normalize("NFC", str(text)) if text is not None else None
+
 
 
 def get_unique_names(history):

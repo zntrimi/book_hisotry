@@ -17,19 +17,17 @@ st.set_page_config(
         'About': "#This is trial comment sheet for YOMY!. This is an *super* cool app!"
     }
 )
-@st.cache_data(ttl=600)
 
+@st.cache_data(ttl=600)
 def load_data(sheets_url):
     csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
     return pd.read_csv(csv_url)
 
 # load data from google sheet
-hisotry = load_data(st.secrets["book_history"])
+history = load_data(st.secrets["book_history"])
 bookdata = load_data(st.secrets["book_data"])
 
 st.title('一体誰が本を読んだのか？')
-
-
 
 def normalize_unicode(text):
     # Ensure that the text is a string before normalizing
@@ -38,8 +36,6 @@ def normalize_unicode(text):
     else:
         # Handle the case where text is not a string (e.g., None or float)
         return unicodedata.normalize("NFC", str(text)) if text is not None else None
-
-
 
 def get_unique_names(history):
     names = set()
@@ -60,9 +56,8 @@ def get_unread_books(selected_names, history, bookdata):
     unread_books = all_books[~all_books['Title'].isin(read_books)].sort_values('Title')
     return unread_books
 
-
 # Get unique names from history
-unique_names = get_unique_names(hisotry)
+unique_names = get_unique_names(history)
 
 # Create a multiselect widget for users to choose names
 selected_names = st.multiselect('名前を選択してください:', unique_names)
@@ -70,7 +65,7 @@ selected_names = st.multiselect('名前を選択してください:', unique_nam
 # Create a button for users to click and display the unread books
 if st.button('まだ誰も読んでいない本を表示'):
     st.balloons()
-    unread_books = get_unread_books(selected_names, hisotry, bookdata)
+    unread_books = get_unread_books(selected_names, history, bookdata)
     st.header('未読の本(体験会を除く):')
     for index, row in unread_books.iterrows():
         st.write(f"{row['Title']} - {row['author']}")
